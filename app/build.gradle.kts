@@ -7,6 +7,12 @@ android {
     namespace = "com.smalixjava.editor"
     compileSdk = 35
 
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId = "com.smalixjava.editor"
         minSdk = 26
@@ -18,6 +24,7 @@ android {
 
 dependencies {
     implementation("androidx.documentfile:documentfile:1.0.1")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     val editorVersion = "0.24.4"
     implementation("io.github.rosemoe:editor:$editorVersion")
     implementation("io.github.rosemoe:language-textmate:$editorVersion")
