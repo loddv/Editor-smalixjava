@@ -18,5 +18,7 @@ android {
 
 dependencies {
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("io.github.rosemoe:editor:0.23.6")
+    val editorVersion = "0.24.4"
+    implementation("io.github.rosemoe:editor:$editorVersion")
+    implementation("io.github.rosemoe:language-textmate:$editorVersion")
 }
