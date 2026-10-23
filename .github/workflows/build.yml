@@ -26,6 +26,25 @@ jobs:
       - name: Build release
         if: inputs.build_type == 'release'
         run: ./gradlew assembleRelease
+      - name: Diagnose Gradle dependency resolution
+        if: failure()
+        continue-on-error: true
+        run: |
+          echo "::group::Configured repositories (settings.gradle.kts)"
+          grep -nE 'google\(\)|mavenCentral\(\)|jitpack|maven\(|RepositoriesMode' settings.gradle.kts || true
+          echo "::endgroup::"
+
+          echo "::group::Declared dependencies (app/build.gradle.kts)"
+          grep -n 'implementation\|api(' app/build.gradle.kts || true
+          echo "::endgroup::"
+
+          echo "::group::Resolved dependency tree (:app:dependencies)"
+          ./gradlew :app:dependencies --configuration debugRuntimeClasspath --no-daemon || true
+          echo "::endgroup::"
+
+          echo "::group::Resolution insight for rosemoe editor"
+          ./gradlew :app:dependencyInsight --configuration debugRuntimeClasspath --dependency io.github.rosemoe --no-daemon || true
+          echo "::endgroup::"
       - uses: actions/upload-artifact@v4
         with:
           name: app-${{ inputs.build_type }}
