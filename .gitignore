@@ -6,6 +6,12 @@ bin-release/
 
 # Other files and folders
 .settings/
+.gradle/
+local.properties
+.idea/
+*.iml
+build/
+app/build/
 
 # Executables
 *.swf
